@@ -12,4 +12,4 @@ export interface CreateDormitoryDto {
     address: string;
 }
 
-export interface UpdateDormitoryDto extends CreateDormitoryDto { }
+export type UpdateDormitoryDto = CreateDormitoryDto;
