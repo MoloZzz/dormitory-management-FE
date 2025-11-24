@@ -1,4 +1,3 @@
-import { apiClient } from './client';
 import type { LoginResponse } from '../types/auth';
 import type { LoginCredentials } from '../features/auth/types';
 

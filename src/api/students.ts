@@ -1,4 +1,3 @@
-import { apiClient } from './client';
 import type { Student, CreateStudentDto, UpdateStudentDto, StudentFilters } from '../types/student';
 
 export const studentsApi = {
@@ -31,6 +30,7 @@ export const studentsApi = {
     },
     delete: async (id: string): Promise<void> => {
         // MOCK
+        console.log(id);
         await new Promise(resolve => setTimeout(resolve, 500));
     },
 };

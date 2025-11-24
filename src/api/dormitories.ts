@@ -1,4 +1,3 @@
-import { apiClient } from './client';
 import type { Dormitory, CreateDormitoryDto, UpdateDormitoryDto } from '../types/dormitory';
 
 export const dormitoriesApi = {
@@ -27,6 +26,7 @@ export const dormitoriesApi = {
     },
     delete: async (id: string): Promise<void> => {
         // MOCK
+        console.log(id);
         await new Promise(resolve => setTimeout(resolve, 500));
     },
 };
