@@ -10,22 +10,29 @@ import {
     FileBarChart
 } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { useAuth } from '../../features/auth/AuthContext';
 
 const navItems = [
-    { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { to: '/dormitories', icon: Building2, label: 'Dormitories' },
-    { to: '/students', icon: Users, label: 'Students' },
-    { to: '/residents', icon: UserCheck, label: 'Residents' },
-    { to: '/workers', icon: Briefcase, label: 'Workers' },
-    { to: '/search', icon: Search, label: 'Search' },
-    { to: '/reports/occupancy', icon: FileBarChart, label: 'Reports' },
+    { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard', roles: ['student', 'worker', 'admin'] },
+    { to: '/dormitories', icon: Building2, label: 'Dormitories', roles: ['worker', 'admin'] },
+    { to: '/students', icon: Users, label: 'Students', roles: ['worker', 'admin'] },
+    { to: '/residents', icon: UserCheck, label: 'Residents', roles: ['worker', 'admin'] },
+    { to: '/workers', icon: Briefcase, label: 'Workers', roles: ['worker', 'admin'] },
+    { to: '/search', icon: Search, label: 'Search', roles: ['worker', 'admin'] },
+    { to: '/reports/occupancy', icon: FileBarChart, label: 'Reports', roles: ['worker', 'admin'] },
 ];
 
 export const Sidebar: React.FC = () => {
+    const { user } = useAuth();
+
+    const visibleNavItems = navItems.filter(item =>
+        item.roles.includes(user?.role || 'student')
+    );
+
     return (
         <aside className="w-64 bg-gray-900 text-white h-screen fixed top-0 left-0 pt-16 overflow-y-auto">
             <nav className="p-4 space-y-2">
-                {navItems.map((item) => (
+                {visibleNavItems.map((item) => (
                     <NavLink
                         key={item.to}
                         to={item.to}
