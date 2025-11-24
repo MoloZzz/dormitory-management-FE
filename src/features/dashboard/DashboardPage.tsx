@@ -1,6 +1,13 @@
 import React from 'react';
+import { useAuth } from '../auth/AuthContext';
+import { StudentDashboard } from './StudentDashboard';
 
 export const DashboardPage: React.FC = () => {
+    const { user } = useAuth();
+    if (user?.role === 'student') {
+        return <StudentDashboard />;
+    }
+
     return (
         <div className="space-y-6">
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>

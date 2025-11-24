@@ -11,7 +11,7 @@ export interface CreateStudentDto {
     course: number;
 }
 
-export interface UpdateStudentDto extends CreateStudentDto { }
+export type UpdateStudentDto = CreateStudentDto;
 
 export interface StudentFilters {
     fullName?: string;

@@ -1,32 +1,32 @@
+import { apiClient } from './client';
 import type { Dormitory, CreateDormitoryDto, UpdateDormitoryDto } from '../types/dormitory';
+import { mockDormitoriesApi } from '../mock-api/dormitories';
+
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
 
 export const dormitoriesApi = {
     getAll: async (): Promise<Dormitory[]> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return [
-            { id: '1', name: 'Dormitory 1', address: '123 Main St' },
-            { id: '2', name: 'Dormitory 2', address: '456 Oak Ave' },
-        ];
+        if (USE_MOCK) return mockDormitoriesApi.getAll();
+        const response = await apiClient.get<Dormitory[]>('/dormitories');
+        return response.data;
     },
     getById: async (id: string): Promise<Dormitory> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id, name: `Dormitory ${id}`, address: '123 Main St' };
+        if (USE_MOCK) return mockDormitoriesApi.getById(id);
+        const response = await apiClient.get<Dormitory>(`/dormitories/${id}`);
+        return response.data;
     },
     create: async (data: CreateDormitoryDto): Promise<Dormitory> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id: Math.random().toString(), ...data };
+        if (USE_MOCK) return mockDormitoriesApi.create(data);
+        const response = await apiClient.post<Dormitory>('/dormitories', data);
+        return response.data;
     },
     update: async (id: string, data: UpdateDormitoryDto): Promise<Dormitory> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id, ...data };
+        if (USE_MOCK) return mockDormitoriesApi.update(id, data);
+        const response = await apiClient.put<Dormitory>(`/dormitories/${id}`, data);
+        return response.data;
     },
     delete: async (id: string): Promise<void> => {
-        // MOCK
-        console.log(id);
-        await new Promise(resolve => setTimeout(resolve, 500));
+        if (USE_MOCK) return mockDormitoriesApi.delete(id);
+        await apiClient.delete(`/dormitories/${id}`);
     },
 };

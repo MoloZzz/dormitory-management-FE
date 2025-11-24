@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import { loginSchema, type LoginCredentials } from './types';
 import { Button } from '../../components/ui/Button';
@@ -81,6 +81,14 @@ export const LoginPage: React.FC = () => {
                         >
                             {isSubmitting ? 'Signing in...' : 'Sign in'}
                         </Button>
+                    </div>
+                    <div className="text-center mt-4">
+                        <p className="text-sm text-gray-600">
+                            Don't have an account?{' '}
+                            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+                                Sign up
+                            </Link>
+                        </p>
                     </div>
                 </form>
             </div>

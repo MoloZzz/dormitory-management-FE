@@ -28,7 +28,7 @@ export const StudentForm: React.FC<StudentFormProps> = ({ initialData, onSubmit,
         } : undefined,
     });
 
-    const onFormSubmit = (data: any) => {
+    const onFormSubmit = (data: z.infer<typeof studentSchema>) => {
         onSubmit(data as CreateStudentDto);
     };
 

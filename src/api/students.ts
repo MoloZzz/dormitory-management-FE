@@ -1,36 +1,36 @@
+import { apiClient } from './client';
 import type { Student, CreateStudentDto, UpdateStudentDto, StudentFilters } from '../types/student';
+import { mockStudentsApi } from '../mock-api/students';
+
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
 
 export const studentsApi = {
     getAll: async (filters?: StudentFilters): Promise<Student[]> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const students = [
-            { id: '1', fullName: 'John Doe', dateOfBirth: '2000-01-01', course: 1 },
-            { id: '2', fullName: 'Jane Smith', dateOfBirth: '2001-02-02', course: 2 },
-        ];
+        if (USE_MOCK) return mockStudentsApi.getAll(filters);
+        const params = new URLSearchParams();
         if (filters?.fullName) {
-            return students.filter(s => s.fullName.toLowerCase().includes(filters.fullName!.toLowerCase()));
+            params.append('fullName', filters.fullName);
         }
-        return students;
+        const response = await apiClient.get<Student[]>('/students', { params });
+        return response.data;
     },
     getById: async (id: string): Promise<Student> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id, fullName: 'John Doe', dateOfBirth: '2000-01-01', course: 1 };
+        if (USE_MOCK) return mockStudentsApi.getById(id);
+        const response = await apiClient.get<Student>(`/students/${id}`);
+        return response.data;
     },
     create: async (data: CreateStudentDto): Promise<Student> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id: Math.random().toString(), ...data };
+        if (USE_MOCK) return mockStudentsApi.create(data);
+        const response = await apiClient.post<Student>('/students', data);
+        return response.data;
     },
     update: async (id: string, data: UpdateStudentDto): Promise<Student> => {
-        // MOCK
-        await new Promise(resolve => setTimeout(resolve, 500));
-        return { id, ...data };
+        if (USE_MOCK) return mockStudentsApi.update(id, data);
+        const response = await apiClient.put<Student>(`/students/${id}`, data);
+        return response.data;
     },
     delete: async (id: string): Promise<void> => {
-        // MOCK
-        console.log(id);
-        await new Promise(resolve => setTimeout(resolve, 500));
+        if (USE_MOCK) return mockStudentsApi.delete(id);
+        await apiClient.delete(`/students/${id}`);
     },
 };
