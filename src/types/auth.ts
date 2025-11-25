@@ -12,7 +12,6 @@ export interface LoginResponse {
 
 export interface RegisterCredentials {
     fullName: string;
-    email: string;
     login: string;
     password: string;
     role: 'worker' | 'student';
