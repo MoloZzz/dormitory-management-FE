@@ -7,7 +7,6 @@ export const mockStudentProfileApi = {
         return {
             id: '1',
             fullName: 'Test Student',
-            email: 'student@example.com',
             dateOfBirth: '2002-05-15',
             course: 2,
             roomAssignment: {

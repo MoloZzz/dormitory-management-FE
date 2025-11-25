@@ -33,7 +33,6 @@ All API requests should be prefixed with the base URL (e.g., `/api/v1` or just `
   ```json
   {
     "fullName": "string",
-    "email": "string",
     "login": "string",
     "password": "string", // min 6 chars
     "role": "worker" | "student"

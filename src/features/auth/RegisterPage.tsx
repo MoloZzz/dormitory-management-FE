@@ -10,7 +10,6 @@ import { Button } from '../../components/ui/Button';
 
 const registerSchema = z.object({
     fullName: z.string().min(1, 'Full name is required'),
-    email: z.string().email('Invalid email address'),
     login: z.string().min(1, 'Login is required'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     role: z.enum(['worker', 'student']),
@@ -56,16 +55,6 @@ export const RegisterPage: React.FC = () => {
                                 placeholder="Full Name"
                             />
                             {errors.fullName && <p className="text-sm text-red-600 mt-1">{errors.fullName.message}</p>}
-                        </div>
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                            <Input
-                                id="email"
-                                type="email"
-                                {...register('email')}
-                                placeholder="Email"
-                            />
-                            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
                         </div>
                         <div>
                             <label htmlFor="login" className="block text-sm font-medium text-gray-700">Login</label>

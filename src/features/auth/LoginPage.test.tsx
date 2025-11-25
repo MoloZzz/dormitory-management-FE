@@ -25,7 +25,7 @@ describe('LoginPage', () => {
     it('renders login form', () => {
         renderLoginPage();
         expect(screen.getByText(/Sign in to your account/i)).toBeInTheDocument();
-        expect(screen.getByPlaceholderText(/Login or Email/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/Login/i)).toBeInTheDocument();
         expect(screen.getByPlaceholderText(/Password/i)).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /Sign in/i })).toBeInTheDocument();
     });

@@ -37,10 +37,6 @@ export const StudentDashboard: React.FC = () => {
                             <span className="font-medium text-gray-900">{profile?.fullName}</span>
                         </div>
                         <div className="flex justify-between border-b pb-2">
-                            <span className="text-gray-600">Email:</span>
-                            <span className="font-medium text-gray-900">{profile?.email}</span>
-                        </div>
-                        <div className="flex justify-between border-b pb-2">
                             <span className="text-gray-600">Date of Birth:</span>
                             <span className="font-medium text-gray-900">
                                 {profile?.dateOfBirth ? new Date(profile.dateOfBirth).toLocaleDateString() : 'N/A'}

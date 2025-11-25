@@ -44,7 +44,7 @@ export const LoginPage: React.FC = () => {
                             <Input
                                 id="login"
                                 type="text"
-                                placeholder="Login or Email"
+                                placeholder="Login"
                                 {...register('login')}
                                 className={errors.login ? 'border-red-500' : ''}
                             />
