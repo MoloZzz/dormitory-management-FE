@@ -8,9 +8,11 @@ import { Input } from '../../components/ui/Input';
 import { Modal } from '../../components/ui/Modal';
 import { StudentForm } from './StudentForm';
 import { useDebounce } from '../../hooks/useDebounce';
+import { useNavigate } from 'react-router-dom';
 
 export const StudentList: React.FC = () => {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingStudent, setEditingStudent] = useState<Student | undefined>(undefined);
     const [searchTerm, setSearchTerm] = useState('');
@@ -108,22 +110,44 @@ export const StudentList: React.FC = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {students?.map((student) => (
-                            <tr key={student.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{student.fullName}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(student.dateOfBirth).toLocaleDateString()}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{student.course}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <tr
+                                key={student.id}
+                                className="hover:bg-gray-50 cursor-pointer"
+                                onClick={() => navigate(`/students/${student.id}`)}   // ← вот это переход
+                            >
+                                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {student.fullName}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {new Date(student.dateOfBirth).toLocaleDateString()}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {student.course}
+                                </td>
+                                <td
+                                    className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                                    onClick={(e) => e.stopPropagation()} // ← чтобы клик по кнопкам не открывал детали
+                                >
                                     <div className="flex justify-end space-x-2">
-                                        <Button variant="ghost" size="icon" onClick={() => openEditModal(student)}>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => openEditModal(student)}
+                                        >
                                             <Edit className="h-4 w-4 text-blue-600" />
                                         </Button>
-                                        <Button variant="ghost" size="icon" onClick={() => handleDelete(student.id)}>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => handleDelete(student.id)}
+                                        >
                                             <Trash2 className="h-4 w-4 text-red-600" />
                                         </Button>
                                     </div>
                                 </td>
                             </tr>
                         ))}
+
                         {students?.length === 0 && (
                             <tr>
                                 <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">
@@ -132,6 +156,7 @@ export const StudentList: React.FC = () => {
                             </tr>
                         )}
                     </tbody>
+
                 </table>
             </div>
 
