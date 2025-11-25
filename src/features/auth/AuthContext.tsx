@@ -3,6 +3,7 @@ import type { User } from '../../types/auth';
 import { authApi } from '../../api/auth';
 import type { LoginCredentials } from './types';
 import type { RegisterCredentials } from '../../types/auth';
+import { apiClient } from '../../api/client';
 
 interface AuthContextType {
     user: User | null;
@@ -20,6 +21,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    // 👉 додати токен кожного разу в axios (apiClient)
+    useEffect(() => {
+        if (token) {
+            apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete apiClient.defaults.headers.common['Authorization'];
+        }
+    }, [token]);
 
     useEffect(() => {
         const initAuth = async () => {
@@ -41,9 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const login = async (credentials: LoginCredentials) => {
         setIsLoading(true);
         try {
-            // Use mockAuthApi for development if needed, or switch based on env
-            // const response = await authApi.login(credentials);
-            const response = await import('../../mock-api/auth').then(m => m.mockAuthApi.login(credentials));
+            const response = await authApi.login(credentials);
 
             setToken(response.token);
             setUser(response.user);
@@ -56,8 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const register = async (credentials: RegisterCredentials) => {
         setIsLoading(true);
         try {
-            // Use mockAuthApi for development
-            const response = await import('../../mock-api/auth').then(m => m.mockAuthApi.register(credentials));
+            const response = await authApi.register(credentials);
 
             setToken(response.token);
             setUser(response.user);
@@ -80,7 +87,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (context === undefined) {
