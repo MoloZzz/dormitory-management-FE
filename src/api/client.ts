@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
@@ -24,6 +25,16 @@ apiClient.interceptors.response.use(
             localStorage.removeItem('token');
             window.location.href = '/login';
         }
-        return Promise.reject(error);
+
+        const message =
+            error.response?.data?.message ||
+            error.response?.data?.error ||
+            error.response?.statusText ||
+            error.message ||
+            'Помилка запиту';
+        
+        toast.error(message); 
+
+        return Promise.reject({ ...error, userMessage: message });
     }
 );
